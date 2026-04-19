@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import { useCart } from '../../util/counterStore'
 
 const ProductDetails = () => {
+  const addToCart = useCart((state)=>state.addToCart)
+  const cart = useCart((state)=>state.cart)
   const [product, setProduct] = useState(null)
   const [active, setActive] = useState('')
+  console.log(cart)
 
   const navigate = useNavigate()
   const { id } = useParams()
@@ -74,7 +78,11 @@ const ProductDetails = () => {
             </h1>
           </div>
 
-          <button className='shadow-xl px-8 py-2 rounded bg-pink-600/70'>
+          <button className='shadow-xl px-8 py-2 rounded bg-pink-600/70' 
+          onClick={()=>(
+            addToCart(product)
+          )}
+          >
             add to cart
           </button>
         </div>
