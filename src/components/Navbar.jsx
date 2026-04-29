@@ -1,5 +1,5 @@
 
-import { ShoppingBagIcon } from "@heroicons/react/24/outline"
+import { ClipboardDocumentListIcon, ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/outline"
 import { Link, useNavigate } from 'react-router-dom'
 import { SignInButton, UserButton, useUser,  } from "@clerk/react"
 import Skeletonbutton from "./Skeleton-button"
@@ -9,7 +9,7 @@ const Navbar = () => {
   const cart = useCart((state) => state.cart)
   const getTotalQty = useCart((state) => state.getTotalQty)
   const count = getTotalQty()
-  const route = useNavigate()
+  const navigate = useNavigate()
   const { isSignedIn,isLoaded, user } = useUser()
 
 
@@ -35,9 +35,18 @@ const Navbar = () => {
       {/* button*/}
         <div className=''>
           <div >
-           {isSignedIn ? <div className="flex gap-2 cursor-pointer px-4 shadow rounded"> <h1 className="text-xl font-mono">{user.firstName}</h1> 
+           {isSignedIn ? <div className="flex gap-2 cursor-pointer px-4 "> <h1 className="text-xl font-mono">{user.firstName}</h1> 
 
-           <UserButton />
+           <UserButton>
+           <UserButton.MenuItems>
+            <UserButton.Action
+            label="My orders"
+            labelIcon={<ClipboardDocumentListIcon className="w-4 h-4" />}
+            onClick={()=>(navigate('/orders'))}
+          />
+        </UserButton.MenuItems>
+      </UserButton>
+
 
            </div>  : <SignInButton mode="modal" >{!isLoaded ? <Skeletonbutton /> 
            :  <h1 className="capitalize px-5 py-1 rounded shadow border-gray-600/60 border shadow-gray-200/60 cursor-pointer">Get Started</h1>}</SignInButton>}
